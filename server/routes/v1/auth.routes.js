@@ -43,7 +43,6 @@ router.post('/signUp', [
 				password: hashedPassword,
 				name,
 				role,
-				cart: [],
 			})
 
 			const tokens = tokenService.generate({ _id: newUser._id })

@@ -9,45 +9,43 @@ import { signUp } from '../store/users'
 import { registerSchema } from '../utils/yup.schema'
 
 const RegisterPage = () => {
-    const dispatch = useDispatch()
+	const dispatch = useDispatch()
 
-    const handleSubmit = (data) => {
-        dispatch(signUp(data))
-    }
+	const handleSubmit = (data) => {
+		dispatch(signUp(data))
+	}
 
-    return (
-        <RowContainer>
-            <div className='offset-md-2 col-md-8 mt-5'>
-                <FormComponent
-                    title={'Регистрация'}
-                    btnLabel={'Отправить'}
-                    onSubmit={handleSubmit}
-                    validationShema={registerSchema}>
-                    <SelectField
-                        name={'role'}
-                        options={[
-                            { value: 'user', label: 'Я покупатель' },
-                            { value: 'manage', label: 'Я продавец' },
-                        ]}
-                    />
-                    <TextField label={'Имя'} name={'name'} />
-                    <TextField label={'Email'} name={'email'} />
+	return (
+		<RowContainer>
+			<div className='offset-md-2 col-md-8 mt-5'>
+				<FormComponent
+					title={'Регистрация'}
+					btnLabel={'Отправить'}
+					onSubmit={handleSubmit}
+					validationShema={registerSchema}>
+					<SelectField
+						name={'role'}
+						defaultOption={{ value: 'user', label: 'Я покупатель' }}
+						options={[{ value: 'manage', label: 'Я продавец' }]}
+					/>
+					<TextField label={'Имя'} name={'name'} />
+					<TextField label={'Email'} name={'email'} />
 
-                    <TextField
-                        label={'Пароль'}
-                        type={'password'}
-                        name={'password'}
-                    />
-                    <CheckboxField name={'license'}>
-                        <span className='ms-1 fst-italic w-100 license'>
-                            Отправляя данные Вы соглашаетесь с Пользовательским
-                            соглашением
-                        </span>
-                    </CheckboxField>
-                </FormComponent>
-            </div>
-        </RowContainer>
-    )
+					<TextField
+						label={'Пароль'}
+						type={'password'}
+						name={'password'}
+					/>
+					<CheckboxField name={'license'}>
+						<span className='ms-1 fst-italic w-100 license'>
+							Отправляя данные Вы соглашаетесь с Пользовательским
+							соглашением
+						</span>
+					</CheckboxField>
+				</FormComponent>
+			</div>
+		</RowContainer>
+	)
 }
 
 export default RegisterPage
