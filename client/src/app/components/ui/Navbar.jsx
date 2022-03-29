@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { getIsLoggedIn } from '../../store/users'
+import { getCurrentUser } from '../../store/users'
 import Cart from './Cart'
 import NavProfile from './navProfile'
 
 const Navbar = () => {
-	const isLoggedIn = useSelector(getIsLoggedIn())
+	const currentUser = useSelector(getCurrentUser())
 
 	return (
 		<div className='navbar bg-secondary shadow'>
@@ -20,7 +20,7 @@ const Navbar = () => {
 						</div>
 					</div>
 					<div className='col-12 col-md-6 d-flex align-items-center justify-content-between justify-content-md-end'>
-						{isLoggedIn ? (
+						{currentUser ? (
 							<NavProfile />
 						) : (
 							<>

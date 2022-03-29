@@ -1,19 +1,20 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getDataStatus, loadUsersList } from '../store/users'
+import { getCurrentUserId, getIsLoading, loadCurrentUser } from '../store/users'
 import Loader from '../components/common/Loader'
 
-const UsersLoader = ({ children }) => {
-	const dataStatus = useSelector(getDataStatus())
+const CurrentUserLoader = ({ children }) => {
+	const isLoading = useSelector(getIsLoading())
+	const isAuth = useSelector(getCurrentUserId())
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		if (!dataStatus) dispatch(loadUsersList())
-	}, [dataStatus, dispatch])
+		if (isAuth) dispatch(loadCurrentUser())
+	}, [isAuth, dispatch])
 
-	if (!dataStatus) return <Loader />
+	if (isLoading) return <Loader />
 
 	return children
 }
 
-export default UsersLoader
+export default CurrentUserLoader
