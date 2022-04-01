@@ -115,6 +115,11 @@ a:hover {
 	background-color: inherit !important;
 }
 
+.cart-image {
+	height: 100px;
+	width: auto;
+}
+
 .bg-secondary,
 .btn-secondary {
 	background-color: var(--main-color) !important;

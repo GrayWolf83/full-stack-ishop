@@ -1,14 +1,6 @@
 import React from 'react'
 
-const SelectField = ({
-	label,
-	value,
-	onChange,
-	defaultOption,
-	options,
-	error,
-	name,
-}) => {
+const SelectField = ({ label, value, onChange, options, error, name }) => {
 	const handleChange = ({ target }) => {
 		onChange({ name: target.name, value: target.value })
 	}
@@ -35,11 +27,7 @@ const SelectField = ({
 				name={name}
 				value={value}
 				onChange={handleChange}>
-				{defaultOption && (
-					<option value={defaultOption.value}>
-						{defaultOption.label}
-					</option>
-				)}
+				<option>Выбрать...</option>
 				{optionsArray &&
 					optionsArray.map((option) => (
 						<option value={option.value} key={option.value}>

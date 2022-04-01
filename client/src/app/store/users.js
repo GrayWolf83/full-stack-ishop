@@ -70,26 +70,23 @@ const {
 	loadCurrentUserRequestFailed,
 } = actions
 
-export const login =
-	({ payload, redirect }) =>
-	async (dispatch) => {
-		const { email, password } = payload
-		dispatch(authRequested())
-		try {
-			const data = await authService.login({ email, password })
-			localStorageService.setTokens(data)
-			dispatch(authRequestSuccess({ userId: data.userId }))
-			history.push(redirect)
-		} catch (error) {
-			const { code, message } = error.response.data.error
-			if (code === 400) {
-				const errorMessage = generateAuthError(message)
-				dispatch(authRequestFailed(errorMessage))
-			} else {
-				dispatch(authRequestFailed(error.message))
-			}
+export const login = (payload) => async (dispatch) => {
+	dispatch(authRequested())
+	try {
+		const data = await authService.login(payload)
+		localStorageService.setTokens(data)
+		dispatch(authRequestSuccess({ userId: data.userId }))
+		history.push('/')
+	} catch (error) {
+		const { code, message } = error.response.data.error
+		if (code === 400) {
+			const errorMessage = generateAuthError(message)
+			dispatch(authRequestFailed(errorMessage))
+		} else {
+			dispatch(authRequestFailed(error.message))
 		}
 	}
+}
 
 export const signUp = (payload) => async (dispatch) => {
 	dispatch(authRequested())
@@ -119,7 +116,7 @@ export const loadCurrentUser = () => async (dispatch) => {
 }
 
 export const getCurrentUserData = () => (state) => {
-	return state.users?.currentUser
+	return state.users.currentUser
 }
 
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn
