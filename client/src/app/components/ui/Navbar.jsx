@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { getCurrentUser } from '../../store/users'
 import Cart from './Cart'
+import CartNavbar from './CartNavbar'
 import NavProfile from './navProfile'
 
 const Navbar = () => {
@@ -20,16 +21,22 @@ const Navbar = () => {
 						</div>
 					</div>
 					<div className='col-12 col-md-6 d-flex align-items-center justify-content-between justify-content-md-end'>
+						{currentUser?.role !== 'manage' && (
+							<CartNavbar count={0} />
+						)}
+
 						{currentUser ? (
 							<NavProfile />
 						) : (
-							<>
-								<NavLink to={'/auth/login'}>Вход</NavLink>
+							<p className='mb-0 ms-2'>
+								<NavLink to={'/auth'} className='ms-2'>
+									Вход
+								</NavLink>
 								<span className='mx-1'>/</span>
 								<NavLink to={'/auth/register'}>
 									Регистрация
 								</NavLink>
-							</>
+							</p>
 						)}
 					</div>
 				</div>

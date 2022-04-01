@@ -13,8 +13,6 @@ function NavProfile() {
 
 	return (
 		<>
-			<CartNavbar count={0} />
-
 			{currentUser?.role === 'manage' && (
 				<Link to={'/manage'}>
 					<button className='btn'>

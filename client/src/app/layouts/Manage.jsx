@@ -1,7 +1,14 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom'
+import ManageToolbar from '../components/ui/ManageToolbar'
 
 const Manage = () => {
-    return <h1>Manage layout</h1>
+	return (
+		<div className='container'>
+			<ManageToolbar />
+			<Outlet />
+		</div>
+	)
 }
 
 export default Manage

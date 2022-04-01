@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import CheckboxField from '../components/common/form/CheckboxFiels'
 import FormComponent from '../components/common/form/FormComponent'
 import SelectField from '../components/common/form/SelectField'
 import TextField from '../components/common/form/TextField'
@@ -17,7 +16,7 @@ const RegisterPage = () => {
 
 	return (
 		<RowContainer>
-			<div className='offset-md-2 col-md-8 mt-5'>
+			<div className='offset-lg-2 col-lg-8 mt-5'>
 				<FormComponent
 					title={'Регистрация'}
 					btnLabel={'Отправить'}
@@ -25,8 +24,10 @@ const RegisterPage = () => {
 					validationShema={registerSchema}>
 					<SelectField
 						name={'role'}
-						defaultOption={{ value: 'user', label: 'Я покупатель' }}
-						options={[{ value: 'manage', label: 'Я продавец' }]}
+						options={[
+							{ value: 'manage', label: 'Я продавец' },
+							{ value: 'user', label: 'Я покупатель' },
+						]}
 					/>
 					<TextField label={'Имя'} name={'name'} />
 					<TextField label={'Email'} name={'email'} />
@@ -36,12 +37,6 @@ const RegisterPage = () => {
 						type={'password'}
 						name={'password'}
 					/>
-					<CheckboxField name={'license'}>
-						<span className='ms-1 fst-italic w-100 license'>
-							Отправляя данные Вы соглашаетесь с Пользовательским
-							соглашением
-						</span>
-					</CheckboxField>
 				</FormComponent>
 			</div>
 		</RowContainer>
