@@ -21,9 +21,7 @@ const Navbar = () => {
 						</div>
 					</div>
 					<div className='col-12 col-md-6 d-flex align-items-center justify-content-between justify-content-md-end'>
-						{currentUser?.role !== 'manage' && (
-							<CartNavbar count={0} />
-						)}
+						<CartNavbar count={0} />
 
 						{currentUser ? (
 							<NavProfile />

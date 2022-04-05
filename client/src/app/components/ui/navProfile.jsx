@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getCurrentUserData } from '../../store/users'
-import CartNavbar from './CartNavbar'
 
 function NavProfile() {
 	const currentUser = useSelector(getCurrentUserData())
