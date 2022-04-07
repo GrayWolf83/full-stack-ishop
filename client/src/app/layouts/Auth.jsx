@@ -1,12 +1,8 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import LoginPage from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
+import { Outlet } from 'react-router-dom'
 
 const Auth = () => {
-    const { login } = useParams()
-
-    return <>{login === 'login' ? <LoginPage /> : <RegisterPage />}</>
+	return <Outlet />
 }
 
 export default Auth

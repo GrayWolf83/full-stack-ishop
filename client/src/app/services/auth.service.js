@@ -1,37 +1,37 @@
 import axios from 'axios'
+import httpService from './http.service'
 import localStorageService from './localStorage.service'
+import config from '../config.json'
 
-export const httpAuth = axios.create({
-    baseURL: 'https://identitytoolkit.googleapis.com/v1/',
-    params: {
-        key: process.env.REACT_APP_FIREBASE_KEY,
-    },
+const authEndpoint = 'auth/'
+
+const httpAuth = axios.create({
+	baseURL: config.API_ENDPOINT,
 })
 
 const authService = {
-    register: async ({ email, password }) => {
-        const { data } = await httpAuth.post(`accounts:signUp`, {
-            email,
-            password,
-            returnSecureToken: true,
-        })
-        return data
-    },
-    login: async ({ email, password }) => {
-        const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
-            email,
-            password,
-            returnSecureToken: true,
-        })
-        return data
-    },
-    refresh: async () => {
-        const { data } = await httpAuth.post('token', {
-            grant_type: 'refresh_token',
-            refresh_token: localStorageService.getRefreshToken(),
-        })
-        return data
-    },
+	register: async (payload) => {
+		const { data } = await httpService.post(
+			authEndpoint + 'signUp',
+			payload,
+		)
+
+		return data
+	},
+	login: async (payload) => {
+		const { data } = await httpService.post(
+			authEndpoint + 'signInWidthPassword',
+			payload,
+		)
+
+		return data
+	},
+	refresh: async () => {
+		const { data } = await httpAuth.post(authEndpoint + 'token', {
+			refresh_token: localStorageService.getRefreshToken(),
+		})
+		return data
+	},
 }
 
 export default authService

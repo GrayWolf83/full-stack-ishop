@@ -1,13 +1,24 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { getCategoriesList } from '../../store/categories'
 
-const Toolbar = () => {
+const Toolbar = ({ onChange }) => {
+    const categories = useSelector(getCategoriesList())
+
     return (
-        <select className='toolbar w-100 text-light bg-secondary p-2 rounded mb-2 shadow'>
-            <option value='all'>Все категории</option>
-            <option value='foot'>Футболки</option>
-            <option value='comp'>Компьютеры</option>
-            <option value='laptop'>Ноутбуки</option>
-            <option value='tech'>Бытовая техника</option>
+        <select
+            className='toolbar w-100 text-light bg-secondary p-2 rounded mb-2 shadow'
+            onChange={onChange}>
+            <option>Все категории</option>
+            {categories?.length ? (
+                categories.map((category) => (
+                    <option value={category._id} key={category._id}>
+                        {category.name}
+                    </option>
+                ))
+            ) : (
+                <option disabled></option>
+            )}
         </select>
     )
 }

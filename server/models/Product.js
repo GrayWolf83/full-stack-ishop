@@ -7,7 +7,7 @@ const schema = new Schema(
 		image: { type: String, required: true },
 		cost: { type: Number, required: true },
 		category: { type: Schema.Types.ObjectId, ref: 'Category' },
-		manage: { type: Schema.Types.ObjectId, ref: 'User' },
+		manageId: { type: Schema.Types.ObjectId, ref: 'User' },
 	},
 	{
 		timestamps: true,
