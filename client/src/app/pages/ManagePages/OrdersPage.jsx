@@ -1,7 +1,7 @@
 import React from 'react'
 
 const OrdersPage = () => {
-	return <h1>Orders</h1>
+    return <h3 className='my-2'>Заказы</h3>
 }
 
 export default OrdersPage
