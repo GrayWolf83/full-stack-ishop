@@ -1,0 +1,6 @@
+{
+    "port": 8080,
+    "mongoUri": "mongodb+srv://webern:ITMQlosOyWaN9CYs@cluster0.5kr6t.mongodb.net/iShop?retryWrites=true&w=majority",
+    "accessSecret": "super secret from backend",
+    "refreshSecret": "super refresh secret from backend"
+}
