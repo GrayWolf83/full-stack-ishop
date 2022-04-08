@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
 		res.sendFile(indexPath)
 	})
 } else {
-	console.log('development')
+	console.log('development mode')
 }
 
 async function start() {
