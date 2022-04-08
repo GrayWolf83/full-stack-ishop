@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const config = require('config')
 const cors = require('cors')
 const chalk = require('chalk')
+const path = require('path')
 const initDatabase = require('./startUp/initDatabase')
 const routesV1 = require('./routes/v1')
 
@@ -14,11 +15,15 @@ app.use('/api/v1', routesV1)
 
 const PORT = config.get('port') ?? 8080
 
-// if (process.env.NODE_ENV === 'production') {
-// 	console.log('production')
-// } else {
-// 	console.log('development')
-// }
+if (process.env.NODE_ENV === 'production') {
+	app.use('/', express.static(path.join(__dirname, 'client')))
+	const indexPath = path.join(__dirname, 'client', 'index.html')
+	app.get('*', (req, res) => {
+		res.sendFile(indexPath)
+	})
+} else {
+	console.log('development')
+}
 
 async function start() {
 	try {

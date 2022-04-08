@@ -14,7 +14,7 @@ const SelectField = ({ label, value, onChange, options, error, name }) => {
 					name: options[optionName].name,
 					value: options[optionName]._id,
 			  }))
-			: options
+			: options.map((item) => ({ value: item._id, label: item.name }))
 
 	return (
 		<div className='mb-4'>
