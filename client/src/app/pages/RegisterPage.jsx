@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import FormComponent from '../components/common/form/FormComponent'
 import SelectField from '../components/common/form/SelectField'
 import TextField from '../components/common/form/TextField'
@@ -9,14 +10,16 @@ import { registerSchema } from '../utils/yup.schema'
 
 const RegisterPage = () => {
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
-	const handleSubmit = (data) => {
-		dispatch(signUp(data))
+	const handleSubmit = async (data) => {
+		await dispatch(signUp(data))
+		navigate('/')
 	}
 
 	return (
 		<RowContainer>
-			<div className='offset-lg-2 col-lg-8 mt-5'>
+			<div className='col-md-6 offset-md-3 mt-5'>
 				<FormComponent
 					title={'Регистрация'}
 					btnLabel={'Отправить'}
@@ -25,8 +28,8 @@ const RegisterPage = () => {
 					<SelectField
 						name={'role'}
 						options={[
-							{ value: 'manage', label: 'Я продавец' },
-							{ value: 'user', label: 'Я покупатель' },
+							{ _id: 'manage', name: 'Я продавец' },
+							{ _id: 'user', name: 'Я покупатель' },
 						]}
 					/>
 					<TextField label={'Имя'} name={'name'} />

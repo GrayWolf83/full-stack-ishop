@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import FormComponent from '../components/common/form/FormComponent'
 import TextField from '../components/common/form/TextField'
 import RowContainer from '../components/common/RowContainer'
@@ -8,14 +9,16 @@ import { loginSchema } from '../utils/yup.schema'
 
 const LoginPage = () => {
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
 
-	const handleSubmit = (data) => {
-		dispatch(login(data))
+	const handleSubmit = async (data) => {
+		await dispatch(login(data))
+		navigate('/')
 	}
 
 	return (
 		<RowContainer>
-			<div className='offset-lg-2 col-lg-8 mt-5'>
+			<div className='col-md-6 offset-md-3 mt-5'>
 				<FormComponent
 					title={'Авторизация'}
 					btnLabel={'Войти'}

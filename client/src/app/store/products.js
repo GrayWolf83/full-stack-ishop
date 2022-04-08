@@ -1,82 +1,100 @@
-// import { createAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import productService from '../services/product.service'
 
-// const productsSlice = createSlice({
-//     name: 'products',
-//     initialState: {
-//         entities: null,
-//         isLoading: true,
-//         error: null,
-//     },
-//     reducers: {
-//         productsRequested: (state) => {
-//             state.isLoading = true
-//         },
-//         productsReceived: (state, action) => {
-//             state.entities = action.payload
-//             state.isLoading = false
-//         },
-//         productsRequestFailed: (state, action) => {
-//             state.error = action.payload
-//             state.isLoading = false
-//         },
-//         productsCreated: (state, action) => {
-//             state.entities.push(action.payload)
-//         },
-//         productsRemoved: (state, action) => {
-//             state.entities = state.entities.filter(
-//                 (c) => c._id !== action.payload,
-//             )
-//         },
-//     },
-// })
+const productsSlice = createSlice({
+	name: 'products',
+	initialState: {
+		entities: null,
+		isLoading: true,
+		error: null,
+		dataLoaded: false,
+	},
+	reducers: {
+		productsRequested: (state) => {
+			state.isLoading = true
+		},
+		productsReceived: (state, action) => {
+			state.entities = action.payload
+			state.dataLoaded = true
+			state.isLoading = false
+		},
+		productsRequestFailed: (state, action) => {
+			state.error = action.payload
+			state.isLoading = false
+		},
+		productItemCreated: (state, action) => {
+			state.entities = [...state.entities, action.payload]
+		},
+		productItemEdited: (state, action) => {
+			state.entities = state.entities.map((item) => {
+				if (item._id === action.payload._id) {
+					return action.payload
+				}
 
-// const { reducer: productsReducer, actions } = productsSlice
-// const {
-//     productsRequested,
-//     productsReceived,
-//     productsRequestFailed,
-//     productsCreated,
-//     productsRemoved,
-// } = actions
+				return item
+			})
+		},
+		productItemRemoved: (state, action) => {
+			state.entities = state.entities.filter(
+				(item) => item._id !== action.payload,
+			)
+		},
+	},
+})
 
-// const productsCreateRequested = createAction('products/productsCreateRequested')
+const { reducer: productsReducer, actions } = productsSlice
+const {
+	productsRequested,
+	productsReceived,
+	productsRequestFailed,
+	productItemCreated,
+	productItemRemoved,
+	productItemEdited,
+} = actions
 
-// export const loadProductsList = (userId) => async (dispatch) => {
-//     dispatch(productsRequested())
-//     try {
-//         const { content } = await productsService.getproducts(userId)
-//         dispatch(commentsReceived(content))
-//     } catch (error) {
-//         dispatch(commentsRequestFailed(error.message))
-//     }
-// }
+export const loadProductsList = () => async (dispatch) => {
+	dispatch(productsRequested())
+	try {
+		const content = await productService.getList()
+		dispatch(productsReceived(content))
+	} catch (error) {
+		dispatch(productsRequestFailed(error.message))
+	}
+}
 
-// export const createComment = (payload) => async (dispatch) => {
-//     dispatch(commentCreateRequested())
-//     try {
-//         const { content } = await commentService.createComment({
-//             ...payload,
-//             _id: nanoid(),
-//             created_at: Date.now(),
-//         })
-//         dispatch(commentCreated(content))
-//     } catch (error) {
-//         dispatch(commentsRequestFailed(error.message))
-//     }
-// }
+export const addProduct = (payload) => async (dispatch) => {
+	try {
+		const content = await productService.addProduct(payload)
+		dispatch(productItemCreated(content))
+	} catch (error) {
+		dispatch(productsRequestFailed(error.message))
+	}
+}
 
-// export const removeComment = (commentId) => async (dispatch) => {
-//     dispatch(commentCreateRequested())
-//     try {
-//         await commentService.removeComment(commentId)
-//         dispatch(commentRemoved(commentId))
-//     } catch (error) {
-//         dispatch(commentsRequestFailed(error.message))
-//     }
-// }
+export const editProduct = (payload) => async (dispatch) => {
+	try {
+		const content = await productService.editProduct(payload)
+		dispatch(productItemEdited(content))
+	} catch (error) {
+		dispatch(productsRequestFailed(error.message))
+	}
+}
 
-// export const getComments = () => (state) => state.comments.entities
-// export const getCommentsLoadingStatus = () => (state) =>
-//     state.comments.isLoading
+export const removeProduct = (id) => async (dispatch) => {
+	try {
+		const content = await productService.removeProduct(id)
+		dispatch(productItemRemoved(content))
+	} catch (error) {
+		dispatch(productsRequestFailed(error.message))
+	}
+}
 
-// export default commentsReducer
+export const getProductsList = () => (state) => state.products.entities
+export const getProductById = (id) => (state) =>
+	state.products.entities.find((item) => item._id === id)
+export const getProductsDataLoadedStatus = () => (state) =>
+	state.products.dataLoaded
+export const getProductsLoadingStatus = () => (state) =>
+	state.products.isLoading
+
+export default productsReducer
