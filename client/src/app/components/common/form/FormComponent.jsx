@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 
 const FormComponent = ({
@@ -7,7 +8,7 @@ const FormComponent = ({
 	children,
 	onSubmit,
 	validationShema,
-	initialData = null,
+	initialData,
 }) => {
 	const [data, setData] = useState({})
 	const [error, setError] = useState({})
@@ -70,6 +71,22 @@ const FormComponent = ({
 			</form>
 		</>
 	)
+}
+
+FormComponent.defaultProps = {
+	initialData: '',
+}
+
+FormComponent.propTypes = {
+	title: PropTypes.string,
+	btnLabel: PropTypes.string,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node,
+	]),
+	onSubmit: PropTypes.func,
+	validationShema: PropTypes.object,
+	initialData: PropTypes.object,
 }
 
 export default FormComponent

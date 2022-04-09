@@ -25,13 +25,16 @@ const RegisterPage = () => {
 					btnLabel={'Отправить'}
 					onSubmit={handleSubmit}
 					validationShema={registerSchema}>
-					<SelectField
-						name={'role'}
-						options={[
-							{ _id: 'manage', name: 'Я продавец' },
-							{ _id: 'user', name: 'Я покупатель' },
-						]}
-					/>
+					<div className='mb-4'>
+						<SelectField
+							name={'role'}
+							options={[
+								{ _id: 'manage', name: 'Я продавец' },
+								{ _id: 'user', name: 'Я покупатель' },
+							]}
+						/>
+					</div>
+
 					<TextField label={'Имя'} name={'name'} />
 					<TextField label={'Email'} name={'email'} />
 

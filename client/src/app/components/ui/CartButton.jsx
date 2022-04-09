@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { getCartCount } from '../../store/cart'
 
-const CartNavbar = () => {
+const CartButton = () => {
 	const count = useSelector(getCartCount())
 
 	return (
@@ -19,4 +19,4 @@ const CartNavbar = () => {
 	)
 }
 
-export default CartNavbar
+export default CartButton

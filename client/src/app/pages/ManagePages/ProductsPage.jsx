@@ -51,12 +51,12 @@ const ProductsPage = () => {
 							<img
 								src={item.image}
 								height='100'
-								className='rounded me-2'
+								className='rounded me-2 my-2'
 								alt=''
 							/>
 						</div>
 						<div className='col-4'>
-							<p className='my-2 fs-5'>{item.name}</p>
+							<p className='my-2 fs-5 fw-bold'>{item.name}</p>
 							<p className='my-2'>{item.description}</p>
 						</div>
 						<div className='col-4 text-end'>

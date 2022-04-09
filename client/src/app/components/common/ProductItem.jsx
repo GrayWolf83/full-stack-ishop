@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ProductItem = ({ item, clickHandler }) => {
 	return (
@@ -23,6 +24,11 @@ const ProductItem = ({ item, clickHandler }) => {
 			</div>
 		</div>
 	)
+}
+
+ProductItem.propTypes = {
+	item: PropTypes.object.isRequired,
+	clickHandler: PropTypes.func.isRequired,
 }
 
 export default ProductItem
