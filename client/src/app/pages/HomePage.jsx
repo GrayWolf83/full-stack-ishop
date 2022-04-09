@@ -4,87 +4,86 @@ import ProductList from '../components/common/ProductList'
 import RowContainer from '../components/common/RowContainer'
 import SortBar from '../components/ui/Sortbar'
 import Toolbar from '../components/ui/Toolbar'
+import { useSelector } from 'react-redux'
+import { getProductsList } from '../store/products'
+import CartButton from '../components/ui/CartButton'
+import Pagination from '../components/common/Pagination'
+import { paginate } from '../utils/paginate'
 
 const HomePage = () => {
-    const [search, setSearch] = useState('')
+	const products = useSelector(getProductsList())
+	const [sort, setSort] = useState({ line: 'cost', method: 'ask' })
+	const [filterByCategory, setFilter] = useState(null)
+	const [search, setSearch] = useState('')
+	const [currentPage, setCurrentPage] = useState(1)
+	const pageSize = 4
 
-    const products = [
-        {
-            _id: '1',
-            name: 'Моноблок мультимедийный',
-            description: 'ACER Aspire C27-962',
-            image: 'https://www.mechta.kz/export/1cbitrix/import_files/a5/a5fa364d-c5d4-11ea-a230-005056b6dbd7-768.webp',
-            cost: 65000,
-            category: '62418495a72364dce36b8f81',
-            manageId: '624305d7e5bac485ccf1aa3b',
-        },
-        {
-            _id: '2',
-            name: 'Ноутбук',
-            description: 'HUAWEI MateBook D 14',
-            image: 'https://www.mechta.kz/export/1cbitrix/import_files/b8/b87a95c3-8568-11ec-a244-005056b6dbd7-768.webp',
-            cost: 65000,
-            category: '62418495a72364dce36b8f82',
-            manageId: '624305d7e5bac485ccf1aa3b',
-        },
-        {
-            _id: '3',
-            name: 'Телефон сотовый',
-            description: 'APPLE iPhone 12 128GB (Black)',
-            image: 'https://www.mechta.kz/export/1cbitrix/import_files/ac/ac142efc-0df3-11eb-a235-005056b6dbd7-768.webp',
-            cost: 100000,
-            category: '62418495a72364dce36b8f85',
-            manageId: '624305d7e5bac485ccf1aa3b',
-        },
-        {
-            _id: '4',
-            name: 'Пылесос',
-            description: 'SAMSUNG VCC 4520 S3R',
-            image: 'https://www.mechta.kz/export/1cbitrix/import_files/e3/e31c9ec2-2900-11e4-b813-14dae972ca6d-768.webp',
-            cost: 10000,
-            category: '62418495a72364dce36b8f85',
-            manageId: '624305d7e5bac485ccf1aa3b',
-        },
-        {
-            _id: '5',
-            name: 'Холодильник',
-            description: 'LG GA-B 509 CESL',
-            image: 'https://www.mechta.kz/images/product/3007/26260001558_1-768.webp',
-            cost: 50000,
-            category: '62418495a72364dce36b8f85',
-            manageId: '624305d7e5bac485ccf1aa3b',
-        },
-    ]
+	const handleChange = (target) => {
+		setSearch(target.value)
+	}
 
-    const handleChange = (target) => {
-        setSearch(target.value)
-    }
+	const visibledProducts = products.filter((item) => item.isVisible)
 
-    return (
-        <>
-            <RowContainer>
-                <div className='offset-md-1 col-md-10 mt-3'>
-                    <TextField
-                        value={search}
-                        onChange={handleChange}
-                        name={'search'}
-                        placeholder='Поиск...'
-                    />
-                </div>
-            </RowContainer>
-            <RowContainer>
-                <div className='col-md-4'>
-                    <Toolbar />
-                </div>
-                <div className='col-md-8'>
-                    <SortBar />
-                </div>
-            </RowContainer>
-            <RowContainer>
-                <ProductList products={products} />
-            </RowContainer>
-        </>
-    )
+	const searchedProducts = search
+		? visibledProducts.filter((item) =>
+				item.name.toLowerCase().includes(search.toLowerCase()),
+		  )
+		: visibledProducts
+
+	const filteredProducts = filterByCategory
+		? searchedProducts.filter((item) => item.category === filterByCategory)
+		: searchedProducts
+
+	const sortedProducts =
+		sort.method === 'ask'
+			? filteredProducts.sort((a, b) =>
+					a[sort.line] < b[sort.line] ? 1 : -1,
+			  )
+			: filteredProducts.sort((a, b) =>
+					a[sort.line] > b[sort.line] ? 1 : -1,
+			  )
+
+	const handlePageChange = (pageIndex) => {
+		setCurrentPage(pageIndex)
+	}
+
+	const count = sortedProducts.length
+	const productsCrop = paginate(sortedProducts, currentPage, pageSize)
+
+	return (
+		<>
+			<RowContainer>
+				<div className='offset-md-1 col-md-10 mt-3'>
+					<TextField
+						value={search}
+						onChange={handleChange}
+						name={'search'}
+						placeholder='Поиск...'
+					/>
+				</div>
+			</RowContainer>
+			<RowContainer>
+				<div className='col-md-4 d-flex align-items-start mb-3'>
+					<Toolbar onChange={setFilter} />
+				</div>
+				<div className='col-md-8'>
+					<SortBar onClick={setSort} sortValue={sort} />
+				</div>
+			</RowContainer>
+			<RowContainer>
+				<ProductList products={productsCrop} />
+				<div className='mt-3 d-flex justify-content-center'>
+					<Pagination
+						itemsCount={count}
+						pageSize={pageSize}
+						currentPage={currentPage}
+						onPageChange={handlePageChange}
+					/>
+				</div>
+			</RowContainer>
+			<CartButton />
+		</>
+	)
 }
 
 export default HomePage

@@ -6,8 +6,13 @@ const schema = new Schema(
 		description: { type: String, required: true },
 		image: { type: String, required: true },
 		cost: { type: Number, required: true },
-		category: { type: Schema.Types.ObjectId, ref: 'Category' },
-		manageId: { type: Schema.Types.ObjectId, ref: 'User' },
+		isVisible: { type: Boolean, required: true },
+		category: {
+			type: Schema.Types.ObjectId,
+			ref: 'Category',
+			required: true,
+		},
+		manageId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	},
 	{
 		timestamps: true,

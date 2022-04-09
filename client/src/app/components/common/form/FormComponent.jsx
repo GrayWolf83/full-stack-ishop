@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import { toast } from 'react-toastify'
 
 const FormComponent = ({
@@ -7,7 +8,7 @@ const FormComponent = ({
 	children,
 	onSubmit,
 	validationShema,
-	initialData = null,
+	initialData,
 }) => {
 	const [data, setData] = useState({})
 	const [error, setError] = useState({})
@@ -46,34 +47,46 @@ const FormComponent = ({
 	}
 
 	return (
-		<div className='row'>
-			<div className='col-md-6 offset-md-3'>
-				<h1 className='text-center pb-5'>{title}</h1>
-				<form
-					className='needs-validation'
-					onSubmit={handleSubmit}
-					noValidate>
-					{React.Children.map(children, (child) => {
-						const config = {
-							...child.props,
-							onChange: handleChange,
-							value: data[child.props.name] || '',
-							error: error[child.props.name] || '',
-						}
+		<>
+			<h2 className='text-center pb-3'>{title}</h2>
+			<form
+				className='needs-validation'
+				onSubmit={handleSubmit}
+				noValidate>
+				{React.Children.map(children, (child) => {
+					const config = {
+						...child.props,
+						onChange: handleChange,
+						value: data[child.props.name] || '',
+						error: error[child.props.name] || '',
+					}
 
-						return React.cloneElement(child, config)
-					})}
-					<div className='w-100 d-flex justify-content-center'>
-						<button
-							className='btn btn-secondary btn-lg'
-							type='submit'>
-							{btnLabel}
-						</button>
-					</div>
-				</form>
-			</div>
-		</div>
+					return React.cloneElement(child, config)
+				})}
+				<div className='w-100 d-flex justify-content-center'>
+					<button className='btn btn-secondary btn-lg' type='submit'>
+						{btnLabel}
+					</button>
+				</div>
+			</form>
+		</>
 	)
+}
+
+FormComponent.defaultProps = {
+	initialData: '',
+}
+
+FormComponent.propTypes = {
+	title: PropTypes.string,
+	btnLabel: PropTypes.string,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node,
+	]),
+	onSubmit: PropTypes.func,
+	validationShema: PropTypes.object,
+	initialData: PropTypes.object,
 }
 
 export default FormComponent
