@@ -2,8 +2,15 @@ const { Schema, model } = require('mongoose')
 
 const schema = new Schema(
 	{
+		number: String,
 		userId: { type: Schema.Types.ObjectId, ref: 'User' },
-		cart: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+		manageId: { type: Schema.Types.ObjectId, ref: 'User' },
+		productId: { type: Schema.Types.ObjectId, ref: 'Product' },
+		count: Number,
+		status: {
+			type: String,
+			enum: ['pending', 'sending', 'delivery', 'executed'],
+		},
 	},
 	{
 		timestamps: true,
