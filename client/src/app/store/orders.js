@@ -5,9 +5,10 @@ const orderSlice = createSlice({
 	name: 'orders',
 	initialState: {
 		entities: null,
+		manageEntities: null,
 		isLoading: true,
 		error: null,
-		dataLoaded: false,
+		changed: 0,
 	},
 	reducers: {
 		ordersRequested: (state) => {
@@ -18,12 +19,18 @@ const orderSlice = createSlice({
 			state.dataLoaded = true
 			state.isLoading = false
 		},
-		productsRequestFailed: (state, action) => {
+		ordersManageReceived: (state, action) => {
+			state.manageEntities = action.payload
+			state.dataLoaded = true
+			state.isLoading = false
+		},
+		ordersRequestFailed: (state, action) => {
 			state.error = action.payload
 			state.isLoading = false
 		},
 		orderItemCreated: (state, action) => {
 			state.entities = [...state.entities, ...action.payload]
+			state.changed = state.changed + 1
 		},
 		orderItemEdited: (state, action) => {
 			state.entities = state.entities.map((item) => {
@@ -33,6 +40,7 @@ const orderSlice = createSlice({
 
 				return item
 			})
+			state.changed = state.changed + 1
 		},
 	},
 })
@@ -41,54 +49,53 @@ const { reducer: ordersReducer, actions } = orderSlice
 const {
 	ordersRequested,
 	ordersReceived,
+	ordersManageReceived,
 	ordersRequestFailed,
 	orderItemCreated,
 	orderItemEdited,
 } = actions
 
-export const loadProductsList = () => async (dispatch) => {
-	dispatch(productsRequested())
+export const loadOrdersList = () => async (dispatch) => {
+	dispatch(ordersRequested())
 	try {
-		const content = await productService.getList()
-		dispatch(productsReceived(content))
+		const content = await orderService.getUserList()
+		dispatch(ordersReceived(content))
 	} catch (error) {
-		dispatch(productsRequestFailed(error.message))
+		dispatch(ordersRequestFailed(error.message))
 	}
 }
 
-export const addProduct = (payload) => async (dispatch) => {
+export const loadManageOrdersList = () => async (dispatch) => {
+	dispatch(ordersRequested())
 	try {
-		const content = await productService.addProduct(payload)
-		dispatch(productItemCreated(content))
+		const content = await orderService.getManageList()
+		dispatch(ordersManageReceived(content))
 	} catch (error) {
-		dispatch(productsRequestFailed(error.message))
+		dispatch(ordersRequestFailed(error.message))
 	}
 }
 
-export const editProduct = (payload) => async (dispatch) => {
+export const addOrder = (payload) => async (dispatch) => {
 	try {
-		const content = await productService.editProduct(payload)
-		dispatch(productItemEdited(content))
+		const content = await orderService.addOrder(payload)
+		dispatch(orderItemCreated(content))
 	} catch (error) {
-		dispatch(productsRequestFailed(error.message))
+		dispatch(ordersRequestFailed(error.message))
 	}
 }
 
-export const removeProduct = (id) => async (dispatch) => {
+export const editOrder = (payload) => async (dispatch) => {
 	try {
-		const content = await productService.removeProduct(id)
-		dispatch(productItemRemoved(content))
+		const content = await orderService.editOrder(payload)
+		dispatch(orderItemEdited(content))
 	} catch (error) {
-		dispatch(productsRequestFailed(error.message))
+		dispatch(ordersRequestFailed(error.message))
 	}
 }
 
-export const getProductsList = () => (state) => state.products.entities
-export const getProductById = (id) => (state) =>
-	state.products.entities.find((item) => item._id === id)
-export const getProductsDataLoadedStatus = () => (state) =>
-	state.products.dataLoaded
-export const getProductsLoadingStatus = () => (state) =>
-	state.products.isLoading
+export const getOrdersList = () => (state) => state.orders.entities
+export const getManageOrdersList = () => (state) => state.orders.manageEntities
+export const getOrdersChangedStatus = () => (state) => state.orders.changed
+export const getOrdersLoadingStatus = () => (state) => state.orders.isLoading
 
-export default productsReducer
+export default ordersReducer

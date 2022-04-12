@@ -86,7 +86,7 @@ FormComponent.propTypes = {
 	]),
 	onSubmit: PropTypes.func,
 	validationShema: PropTypes.object,
-	initialData: PropTypes.object,
+	initialData: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 }
 
 export default FormComponent

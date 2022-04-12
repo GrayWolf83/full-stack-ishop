@@ -9,7 +9,7 @@ const schema = new Schema(
 		count: Number,
 		status: {
 			type: String,
-			enum: ['pending', 'sending', 'delivery', 'executed'],
+			enum: ['pending', 'delivery', 'executed'],
 		},
 	},
 	{

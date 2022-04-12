@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
-const nanoid = require('nanoid')
+const { nanoid } = require('nanoid')
 const auth = require('../../middleware/auth.middleware')
 const manage = require('../../middleware/manage.middleware')
 const Order = require('../../models/Order')
@@ -12,7 +12,7 @@ router.get('/user', auth, async (req, res) => {
 		return res.status(401).json({ message: 'Unautorized' })
 	}
 
-	const userOrders = await Order.find({ userId })
+	const userOrders = await Order.find({ userId }).lean()
 	res.status(200).send(userOrders)
 })
 
@@ -23,7 +23,7 @@ router.get('/manage', auth, manage, async (req, res) => {
 		return res.status(401).json({ message: 'Unautorized' })
 	}
 
-	const manageOrders = await Order.find(manageId === userId)
+	const manageOrders = await Order.find({ manageId: userId })
 
 	res.status(200).send(manageOrders)
 })
@@ -51,6 +51,20 @@ router.post('/', auth, async (req, res) => {
 	})
 
 	res.status(201).send(order)
+})
+
+router.patch('/', auth, manage, async (req, res) => {
+	const userId = req?.user?._id
+
+	if (!userId || !req?.user?.isManage) {
+		return res.status(401).json({ message: 'Unautorized' })
+	}
+
+	const changedOrder = await Order.findByIdAndUpdate(req.body._id, {
+		status: req.body.status,
+	})
+
+	res.status(201).send(changedOrder)
 })
 
 module.exports = router
