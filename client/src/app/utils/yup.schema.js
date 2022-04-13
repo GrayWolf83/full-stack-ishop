@@ -42,6 +42,13 @@ export const productSchema = yup.object().shape({
 			text: 'Поле "Описание" обязательно для заполнения',
 		})
 		.trim(),
+	model: yup
+		.string()
+		.required({
+			name: 'model',
+			text: 'Поле "Модель" обязательно для заполнения',
+		})
+		.trim(),
 	name: yup
 		.string()
 		.required({

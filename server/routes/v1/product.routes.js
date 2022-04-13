@@ -3,7 +3,6 @@ const Product = require('../../models/Product')
 const router = express.Router({ mergeParams: true })
 const auth = require('../../middleware/auth.middleware')
 const manage = require('../../middleware/manage.middleware')
-const User = require('../../models/User')
 
 router.get('/', async (req, res) => {
 	try {

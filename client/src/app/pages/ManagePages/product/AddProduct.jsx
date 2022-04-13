@@ -33,6 +33,7 @@ const AddProduct = () => {
 					/>
 				</div>
 				<TextField label={'Наименование'} name={'name'} />
+				<TextField label={'Модель'} name={'model'} />
 				<TextField label={'Описание'} name={'description'} />
 				<TextField label={'URL картинки'} name={'image'} />
 				<TextField label={'Цена'} name={'cost'} />

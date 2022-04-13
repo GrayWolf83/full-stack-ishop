@@ -12,6 +12,7 @@ import EditProduct from '../pages/ManagePages/product/EditProduct'
 import ProductsPage from '../pages/ManagePages/ProductsPage'
 import ProfilePage from '../pages/ProfilePage'
 import RegisterPage from '../pages/RegisterPage'
+import SingleProductPage from '../pages/SingleProductPage'
 
 const AppRoutes = () => {
 	return (
@@ -37,9 +38,10 @@ const AppRoutes = () => {
 				<Route path='register' element={<RegisterPage />} />
 			</Route>
 
-			<Route path='/' element={<Home />} />
 			<Route path='/profile/:userId' element={<ProfilePage />} />
+			<Route path='/product/:productId' element={<SingleProductPage />} />
 			<Route path='/logout' element={<LogOutPage />} />
+			<Route path='/' element={<Home />} />
 			<Route path='*' element={<Home />} />
 		</Routes>
 	)

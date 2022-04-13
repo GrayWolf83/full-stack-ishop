@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import TextField from '../components/common/form/TextField'
 import ProductList from '../components/common/ProductList'
-import RowContainer from '../components/common/RowContainer'
 import SortBar from '../components/ui/Sortbar'
 import Toolbar from '../components/ui/Toolbar'
 import { useSelector } from 'react-redux'
@@ -18,8 +17,8 @@ const HomePage = () => {
 	const [currentPage, setCurrentPage] = useState(1)
 	const pageSize = 4
 
-	const handleChange = (target) => {
-		setSearch(target.value)
+	const handleChange = (e) => {
+		setSearch(e.target.value)
 	}
 
 	const visibledProducts = products.filter((item) => item.isVisible)
@@ -51,8 +50,8 @@ const HomePage = () => {
 	const productsCrop = paginate(sortedProducts, currentPage, pageSize)
 
 	return (
-		<>
-			<RowContainer>
+		<div className='container'>
+			<div className='row'>
 				<div className='offset-md-1 col-md-10 mt-3'>
 					<TextField
 						value={search}
@@ -61,16 +60,16 @@ const HomePage = () => {
 						placeholder='Поиск...'
 					/>
 				</div>
-			</RowContainer>
-			<RowContainer>
+			</div>
+			<div className='row'>
 				<div className='col-md-4 d-flex align-items-start mb-3'>
 					<Toolbar onChange={setFilter} />
 				</div>
 				<div className='col-md-8'>
 					<SortBar onClick={setSort} sortValue={sort} />
 				</div>
-			</RowContainer>
-			<RowContainer>
+			</div>
+			<div className='row'>
 				<ProductList products={productsCrop} />
 				<div className='mt-3 d-flex justify-content-center'>
 					<Pagination
@@ -80,9 +79,9 @@ const HomePage = () => {
 						onPageChange={handlePageChange}
 					/>
 				</div>
-			</RowContainer>
+			</div>
 			<CartButton />
-		</>
+		</div>
 	)
 }
 

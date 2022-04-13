@@ -6,8 +6,8 @@ import SelectField from '../common/form/SelectField'
 const Toolbar = ({ onChange }) => {
 	const categories = useSelector(getCategoriesList())
 
-	const handleChange = (target) => {
-		onChange(target.value)
+	const handleChange = (e) => {
+		onChange(e.target.value)
 	}
 
 	return (

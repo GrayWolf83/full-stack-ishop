@@ -168,6 +168,10 @@ i.bi {
 	z-index: 5;
 }
 
+.text-justify {
+	text-align: justify;
+}
+
 /* Loader */
 .loader {
 	display: flex;

@@ -57,7 +57,7 @@ const ProductsPage = () => {
 						</div>
 						<div className='col-4'>
 							<p className='my-2 fs-5 fw-bold'>{item.name}</p>
-							<p className='my-2'>{item.description}</p>
+							<p className='my-2'>{item.model}</p>
 						</div>
 						<div className='col-4 text-end'>
 							<p className='my-2'>Цена: {item.cost} руб.</p>

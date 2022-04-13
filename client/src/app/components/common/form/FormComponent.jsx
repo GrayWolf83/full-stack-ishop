@@ -13,8 +13,11 @@ const FormComponent = ({
 	const [data, setData] = useState({})
 	const [error, setError] = useState({})
 
-	const handleChange = (target) => {
-		setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+	const handleChange = (e) => {
+		setData((prevState) => ({
+			...prevState,
+			[e.target.name]: e.target.value,
+		}))
 	}
 
 	const validation = useCallback(() => {
@@ -57,8 +60,8 @@ const FormComponent = ({
 					const config = {
 						...child.props,
 						onChange: handleChange,
-						value: data[child.props.name] || '',
-						error: error[child.props.name] || '',
+						value: data[child?.props?.name] || '',
+						error: error[child?.props?.name] || '',
 					}
 
 					return React.cloneElement(child, config)
@@ -86,7 +89,7 @@ FormComponent.propTypes = {
 	]),
 	onSubmit: PropTypes.func,
 	validationShema: PropTypes.object,
-	initialData: PropTypes.object,
+	initialData: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
 }
 
 export default FormComponent
