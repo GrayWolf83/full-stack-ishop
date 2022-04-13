@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
 import { addCartItem } from '../../store/cart'
 import ProductItem from './ProductItem'
+import PropTypes from 'prop-types'
 
 const ProductList = ({ products }) => {
 	const dispatch = useDispatch()
@@ -32,6 +33,10 @@ const ProductList = ({ products }) => {
 			)}
 		</div>
 	)
+}
+
+ProductList.propTypes = {
+	orders: PropTypes.array,
 }
 
 export default ProductList

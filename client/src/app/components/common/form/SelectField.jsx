@@ -10,9 +10,6 @@ const SelectField = ({
 	name,
 	defaultLabel,
 }) => {
-	const handleChange = ({ target }) => {
-		onChange({ name: target.name, value: target.value })
-	}
 	const getInputClasses = () => {
 		return 'form-select' + (error ? ' is-invalid' : '')
 	}
@@ -35,7 +32,7 @@ const SelectField = ({
 				id={name}
 				name={name}
 				value={value}
-				onChange={handleChange}>
+				onChange={onChange}>
 				<option value={''}>{defaultLabel}</option>
 				{optionsArray &&
 					optionsArray.map((option) => (

@@ -1,11 +1,14 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, useParams } from 'react-router-dom'
+import OrdersList from '../components/common/OrdersList'
+import { getOrdersList } from '../store/orders'
 import { getCurrentUserData } from '../store/users'
 
 const ProfilePage = () => {
 	const { userId } = useParams()
 	const currentUser = useSelector(getCurrentUserData())
+	const orders = useSelector(getOrdersList())
 
 	if (!userId || userId !== currentUser._id) {
 		return <Navigate to='/' />
@@ -21,6 +24,11 @@ const ProfilePage = () => {
 				{currentUser.role === 'manage' ? 'Продавец' : 'Покупатель'}
 			</p>
 			<h3 className='fs-4'>Заказы:</h3>
+			{orders?.length ? (
+				<OrdersList orders={orders} />
+			) : (
+				<p>У Вас еще нет заказов!</p>
+			)}
 		</div>
 	)
 }
