@@ -14,7 +14,11 @@ http.interceptors.request.use(
 		const refreshToken = localStorageService.getRefreshToken()
 		if (refreshToken && expiresDate < Date.now()) {
 			const data = await authService.refresh()
-			localStorageService.setTokens(data)
+			if (data?.message === 'Unautorized') {
+				localStorageService.removeAuthData()
+			} else {
+				localStorageService.setTokens(data)
+			}
 		}
 		const accessToken = localStorageService.getAccessToken()
 		if (accessToken) {

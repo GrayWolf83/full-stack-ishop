@@ -46,6 +46,11 @@ const HomePage = () => {
 		setCurrentPage(pageIndex)
 	}
 
+	const handleChangeCategoryFilter = (value) => {
+		setCurrentPage(1)
+		setFilter(value)
+	}
+
 	const count = sortedProducts.length
 	const productsCrop = paginate(sortedProducts, currentPage, pageSize)
 
@@ -63,7 +68,7 @@ const HomePage = () => {
 			</div>
 			<div className='row'>
 				<div className='col-md-4 d-flex align-items-start mb-3'>
-					<Toolbar onChange={setFilter} />
+					<Toolbar onChange={handleChangeCategoryFilter} />
 				</div>
 				<div className='col-md-8'>
 					<SortBar onClick={setSort} sortValue={sort} />

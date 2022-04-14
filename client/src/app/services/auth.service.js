@@ -30,6 +30,7 @@ const authService = {
 		const { data } = await httpAuth.post(authEndpoint + 'token', {
 			refresh_token: localStorageService.getRefreshToken(),
 		})
+
 		return data
 	},
 }
